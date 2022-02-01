@@ -14,6 +14,10 @@
 #define ledPin 13
 #define buzzer 9  //buzzer connect to D9
 #define pullupSwitch 7
+
+static const char *kRemoteIpadr = "192.168.0.119";
+static const int kRmoteUdpPort = 5051;
+
 SoftwareSerial softserial(4, 5); // A9 to ESP_TX, A8 to ESP_RX by default
 char ssid[] = "TP-LINK_8A3C";            // your network SSID (name)
 char pass[] = "30960961";        // your network password
@@ -95,6 +99,14 @@ void loop() {
   if(pullupSwitch_value == LOW && ledPin_value == HIGH){
     digitalWrite(ledPin,LOW); //TURN OFF LED
     digitalWrite(buzzer,HIGH);//buzzer OFF
+
+    Udp.beginPacket(kRemoteIpadr,kRmoteUdpPort);
+    Udp.write("from ESP8266\r\n");
+    Udp.endPacket();  
+  }else{
+    Udp.beginPacket(kRemoteIpadr,kRmoteUdpPort);
+    Udp.write("from ESP8266\r\n");
+    Udp.endPacket();  
   }
     
 }
