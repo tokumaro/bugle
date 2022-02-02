@@ -1,17 +1,3 @@
-<?php
-    // $socket = socket_create(AF_INET,SOCK_DGRAM,SOL_UDP);
-
-    // if (isset($_POST['on'])){
-    //     $msg = "F";
-    //     $len = strlen($msg);
-    //     socket_sendto($socket,$msg,$len,0,'192.168.0.106',8888);
-    // }else if(isset($_POST['off'])){
-    //     $msg = "G";
-    //     $len = strlen($msg);
-    //     socket_sendto($socket,$msg,$len,0,'192.168.0.106',8888);
-    // }
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -31,7 +17,8 @@
     <input type="button" value="off" onclick="ledoff()">
 
     <script type="text/javascript">
-        var conn = new WebSocket('ws://localhost:8080');
+        // var conn = new WebSocket('ws://localhost:8080');
+        var conn = new WebSocket('ws://192.168.0.119:8081');
         conn.onopen = function(e) {
             console.log("Connection established!");
         };

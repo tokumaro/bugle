@@ -25,7 +25,7 @@ class Chat implements MessageComponentInterface {
         if ($msg == "F" || $msg == "G"){
             $socket = socket_create(AF_INET,SOCK_DGRAM,SOL_UDP);
             $len = strlen($msg);
-            socket_sendto($socket,$msg,$len,0,'192.168.0.106',8888);
+            socket_sendto($socket,$msg,$len,0,'192.168.0.122',8888);
         }
         // }else if(isset($_POST['off'])){
         //     $msg = "G";
