@@ -19,8 +19,8 @@ bugle
     │  style.css
     │
     ├─bin
-    │      chat-server.php  サーバにて常時稼働させるハンドラです。phpコマンドにて実行してください。
-    │      udp-socket.php   udpにてwifi子機と通信するためのハンドラです。phpコマンドにて実行してください。
+    │      chat-server.php  サーバにて常時稼働させるwebsocket serverです。phpコマンドにて実行してください。
+    │      udp-socket.php   udpにてwifi子機と通信するためのudp serverです。phpコマンドにて実行してください。
     │
     └─src
     │   └─Chat.php          bin\chat-server.phpで受信したwebsocketデータを処理するプログラムです。
