@@ -17,6 +17,9 @@
 
 static const char *kRemoteIpadr = "192.168.0.119";
 static const int kRmoteUdpPort = 5051;
+unsigned long myTime = 0;
+unsigned long BugleTimeoutTimer = 0;
+unsigned long CountMyTime = 0;
 
 SoftwareSerial softserial(4, 5); // A9 to ESP_TX, A8 to ESP_RX by default
 char ssid[] = "TP-LINK_8A3C";            // your network SSID (name)
@@ -69,7 +72,7 @@ void setup() {
 void loop() {
   int pullupSwitch_value = digitalRead( pullupSwitch );//test
   int ledPin_value = digitalRead( ledPin );//test
-  
+      myTime = millis() / 1000; //秒数を格納
   int packetSize = Udp.parsePacket();
   if (packetSize) {                               // if you get a client,
      Serial.print("Received packet of size ");
@@ -85,30 +88,50 @@ void loop() {
         case 'F': 
         digitalWrite(ledPin, HIGH); //TURN ON LED
         digitalWrite(buzzer,LOW); //buzzer ON
+        BugleTimeoutTimer = myTime;
         break;
         
         case 'G':
         digitalWrite(ledPin, LOW); //TURN OFF LED
         digitalWrite(buzzer,HIGH);//buzzer OFF
+        BugleTimeoutTimer = 0;
+        CountMyTime = 0;
         break;
  
         default:break;
       }
     }
+
+  if (BugleTimeoutTimer){
+    CountMyTime = myTime;
+  }
+
+//    Serial.print("Received packet of size ");
+//    Serial.println(myTime);
   
   if(pullupSwitch_value == LOW && ledPin_value == HIGH){
+    Serial.print("bugle Responded. ");
+    
     digitalWrite(ledPin,LOW); //TURN OFF LED
     digitalWrite(buzzer,HIGH);//buzzer OFF
 
     Udp.beginPacket(kRemoteIpadr,kRmoteUdpPort);
-    Udp.write("from ESP8266\r\n");
+    Udp.write("STOP");
     Udp.endPacket();  
-  }else{
-    Udp.beginPacket(kRemoteIpadr,kRmoteUdpPort);
-    Udp.write("from ESP8266\r\n");
-    Udp.endPacket();  
-  }
     
+  }else if( (CountMyTime-BugleTimeoutTimer) >= 30 ){
+    CountMyTime = BugleTimeoutTimer = 0;
+    Serial.print("bugle not respond. ");
+    
+    digitalWrite(ledPin,LOW); //TURN OFF LED
+    digitalWrite(buzzer,HIGH);//buzzer OFF
+
+    Udp.beginPacket(kRemoteIpadr,kRmoteUdpPort);
+    Udp.write("NON");
+    Udp.endPacket();
+    
+  }
+ 
 }
 
 void printWifiStatus()
