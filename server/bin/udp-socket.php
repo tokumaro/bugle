@@ -23,10 +23,16 @@ function udpsocket_loop(){
 			$sql = $pdo->prepare('update wifi_machine set client_status=? where INET_NTOA(ip_address) = ?');
 			// $sql->execute(["呼出停止",$wifi_from]);//データベースに呼出停止フラグ格納
 		    foreach($pdo->query('select * from wifi_machine') as $row){
-				if(long2ip($row['ip_address']) == $wifi_from){
+				if(long2ip($row['ip_address']) == $wifi_from && $udp_buf == "STOP"){
 					if($row['client_status'] == "呼出要求"){
 						$sql->execute(["停止要求",$wifi_from]);
 						echo($wifi_from . " より停止要求". PHP_EOL. PHP_EOL);
+					}
+					break;
+				}else if(long2ip($row['ip_address']) == $wifi_from && $udp_buf == "NON"){
+					if($row['client_status'] == "呼出要求"){
+						$sql->execute(["応答無",$wifi_from]);
+						echo($wifi_from . " より応答無". PHP_EOL. PHP_EOL);
 					}
 					break;
 				}

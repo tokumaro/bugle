@@ -23,8 +23,6 @@ class Chat implements MessageComponentInterface {
  
     public function onMessage(ConnectionInterface $from, $msg) {
         $numRecv = count($this->clients) - 1;
-        // echo sprintf('Connection %d sending message "%s" to %d other connection%s' . "\n"
-        //     , $from->resourceId, $msg, $numRecv, $numRecv == 1 ? '' : 's');
             
             $this->send_from = $from; //ローカル関数udpstatus_loop()用に送信用オブジェクトをストックする。
             $pieces = explode(",",$msg);//クライアントから送信されたメッセージを分解して格納する。
@@ -70,7 +68,11 @@ class Chat implements MessageComponentInterface {
         $sql = $pdo->prepare('update wifi_machine set client_status=? where INET_NTOA(ip_address) = ?');
         foreach($pdo->query('select * from wifi_machine') as $row){
             if($row['client_status'] == "停止要求"){
-                $this->send_from->send(long2ip($row['ip_address']));
+                $this->send_from->send(long2ip($row['ip_address']) . " STOP" );
+                $sql->execute([null,long2ip($row['ip_address'])]);
+                echo("クライアントからの次操作受信開始" . PHP_EOL);
+            }else if($row['client_status'] == "応答無"){
+                $this->send_from->send(long2ip($row['ip_address']) . " NON" );
                 $sql->execute([null,long2ip($row['ip_address'])]);
                 echo("クライアントからの次操作受信開始" . PHP_EOL);
             }

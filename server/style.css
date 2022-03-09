@@ -58,6 +58,24 @@ main{
     transition:0.5s;
 }
 
+/* 条件別style */
+.send-signal{
+    transform : scale(0.7,0.7);
+    background-color : #FF82B2;
+    color : #fff;
+    opacity : 0.3;
+}
+
+.stop-response{
+    transform : scale(1.3,1.3);
+    background-color : #38fad0;
+}
+
+.non-response{
+    transform : scale(1.3,1.3);
+    background-color : #ec4949;
+}
+
 .buglebutton-delete{
     margin-top: 10px;
     margin-bottom: 10px;
