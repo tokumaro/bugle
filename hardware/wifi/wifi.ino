@@ -15,15 +15,15 @@
 #define buzzer 9  //buzzer connect to D9
 #define pullupSwitch 7
 
-static const char *kRemoteIpadr = "192.168.0.119";
+static const char *kRemoteIpadr = "****";
 static const int kRmoteUdpPort = 5051;
 unsigned long myTime = 0;
 unsigned long BugleTimeoutTimer = 0;
 unsigned long CountMyTime = 0;
 
 SoftwareSerial softserial(4, 5); // A9 to ESP_TX, A8 to ESP_RX by default
-char ssid[] = "TP-LINK_8A3C";            // your network SSID (name)
-char pass[] = "30960961";        // your network password
+char ssid[] = "****";            // your network SSID (name)
+char pass[] = "****";        // your network password
 int status = WL_IDLE_STATUS;     // the Wifi radio's status
 WiFiEspUDP Udp;
 unsigned int localPort = 8888;              // local port to listen on
