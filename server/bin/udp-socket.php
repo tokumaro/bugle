@@ -10,7 +10,7 @@ function udpsocket_loop(){
    
 	    //UDPのソケット作成
 	    $udp_socket = socket_create(AF_INET,SOCK_DGRAM,SOL_UDP);
-	    socket_bind($udp_socket,'192.168.0.119',$udp_port);
+	    socket_bind($udp_socket,'****',$udp_port);
 
 	//socket_set_nonblock($udp_socket);//socket_recvfrom()にてノンブロッキングでudp受信
 	    echo("データ受信開始 : ");
